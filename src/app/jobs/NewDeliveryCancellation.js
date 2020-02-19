@@ -16,7 +16,7 @@ class NewDeliveryCancellation {
         delivery_id: delivery.id,
         deliveryman: delivery.deliveryman.name,
         product: delivery.product,
-        recipient: delivery.recipient.name,
+        recipient: delivery.recipient.name_destinatario,
         problem,
       },
     });

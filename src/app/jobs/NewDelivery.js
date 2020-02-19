@@ -20,7 +20,7 @@ class NewDelivery {
       context: {
         deliveryman: delivery.deliveryman.name,
         product: delivery.product,
-        recipient: delivery.recipient.name,
+        recipient: delivery.recipient.name_destinatario,
         recipient_address: `${delivery.recipient.rua}, ${delivery.recipient.numero} ${complemento}, ${delivery.recipient.cidade} - ${delivery.recipient.estado}, ${delivery.recipient.cep} `,
         createdAt_date: format(
           parseISO(delivery.createdAt),
