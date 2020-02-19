@@ -51,7 +51,7 @@ class DelivererController {
 
   async index(req, res) {
     const deliverer = await Deliverer.findAll({
-      attributes: ['id', 'name', 'emai', 'avatar_id'],
+      attributes: ['id', 'name', 'emai'],
       include: [
         {
           model: File,
@@ -95,21 +95,30 @@ class DelivererController {
   }
 
   async delete(req, res) {
-    try {
-      const deliverer = await Deliverer.findByPk(req.params.id);
+    const deliverer = await Deliverer.findByPk(req.params.id);
 
-      console.log(deliverer);
-
-      if (deliverer.id === req.userId) {
-        return res.status(401).json({
-          error: "you don't have permission to cancel this deliverer",
-        });
-      }
-
-      return res.json('fim');
-    } catch (err) {
-      return res.json({ error: 'deu erro', err });
+    if (!deliverer) {
+      return res.status(400).json({
+        error: 'Deliverer do not exist',
+      });
     }
+
+    if (deliverer.avatar_id) {
+      await File.destroy({
+        where: {
+          id: deliverer.avatar_id,
+        },
+        individualHooks: true,
+      });
+    }
+
+    await Deliverer.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    return res.json('Deliverers was successfully canceled');
   }
 }
 
